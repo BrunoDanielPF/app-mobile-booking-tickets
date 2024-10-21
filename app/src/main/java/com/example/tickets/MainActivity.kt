@@ -4,30 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tickets.components.bottom.BottomNavigationBar
 import com.example.tickets.components.content.MainScreenContentComponent
-import com.example.tickets.components.samples.AnimatedVisibilityCookbook
+import com.example.tickets.components.navigation.Routes
+import com.example.tickets.components.navigation.eventRoute
 import com.example.tickets.components.topbar.TopBar
 import com.example.tickets.ui.theme.TIcketsTheme
 
@@ -68,12 +58,13 @@ fun NavigationGraph(
     NavHost(
         navController,
         startDestination = BottomNavItem.Home.screen_route,
-        modifier = androidx.compose.ui.Modifier.padding(
+        modifier = Modifier.padding(
             innerPadding
         )
     ) {
+        eventRoute(navController)
         composable(BottomNavItem.Home.screen_route) {
-            MainScreenContentComponent()
+            MainScreenContentComponent(navController)
         }
         composable(BottomNavItem.Calendar.screen_route) {
             Text(text = "pagina de calendario")
@@ -87,13 +78,22 @@ fun NavigationGraph(
             Text(text = "pagina de perfil")
             //ProfileScreen()
         }
+        composable("teste") {
+            Text(text = "pagina de teste")
+        }
     }
 }
 
 sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: String) {
     object Home : BottomNavItem("Início",
-        R.drawable.ic_home, "home")
-    object Calendar : BottomNavItem("Calendário", R.drawable.ic_calendar, "calendar")
-    object Maps : BottomNavItem("Mapa", R.drawable.ic_maps, "maps")
-    object Profile : BottomNavItem("Perfil", R.drawable.ic_profile, "profile")
+        R.drawable.ic_home, Routes.HOME)
+
+    object Calendar : BottomNavItem("Calendário",
+        R.drawable.ic_calendar, Routes.CALENDAR)
+
+    object Maps : BottomNavItem("Mapa",
+        R.drawable.ic_maps, Routes.MAPS)
+
+    object Profile : BottomNavItem("Perfil",
+        R.drawable.ic_profile, Routes.PROFILE)
 }

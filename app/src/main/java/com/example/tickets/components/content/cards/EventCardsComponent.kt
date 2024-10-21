@@ -1,11 +1,6 @@
 package com.example.tickets.components.content.cards
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,12 +12,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,29 +28,32 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.tickets.R
+import com.example.tickets.components.navigation.navigateTo
 
 @Preview
 @Composable
 private fun EventCardsListPreview() {
-    CardEvent()
+    CardEvent(rememberNavController())
 }
 
 @Composable
-fun EventCardList() {
+fun EventCardList(navController: NavHostController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
         items(3) { // Cria 3 itens
-            CardEvent()
+            CardEvent(navController)
         }
     }
 }
 
 @Composable
-fun CardEvent() {
+fun CardEvent(navController: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -103,18 +101,18 @@ fun CardEvent() {
                     fontSize = 10.sp
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Comprar",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable { /*TODO*/ },
-                    fontSize = 12.sp
-                )
-                Text(
-                    text = "Agora",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable { /*TODO*/ },
-                    fontSize = 12.sp
-                )
+                TextButton(
+                    onClick = {
+                        navController.navigateTo("teste")
+                    }
+                ) {
+                    Text(
+                        text = "Comprar agora",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
+                }
+
             }
         }
     }
