@@ -43,6 +43,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tickets.R
+import com.example.tickets.components.style.StyleCards.Companion.MODIFIER_CARD
+import com.example.tickets.components.topbar.BoxExtendProfileColor
 
 @Preview
 @Composable
@@ -52,88 +54,91 @@ private fun CardsEventsPreview() {
 
 @Composable
 fun CardsEvents() {
-    Column {
-        Spacer(
-            modifier = Modifier.padding(top = 6.dp)
-        )
-        // Campo de pesquisa
-        var text by remember { mutableStateOf("") }
-        OutlinedTextField(
-            leadingIcon = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_search),
-                    contentDescription = "Pesquisar",
-                    tint = Color.White
-                )
-            },
-            value = text,
-            onValueChange = { text = it },
-            placeholder = { Text("Pesquisar...", color = Color.White) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.Transparent,
-                unfocusedBorderColor = Color.Transparent,
-                cursorColor = Color.White,
-                focusedPlaceholderColor = Color.White,
-                unfocusedPlaceholderColor = Color.White
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 8.dp) // Adiciona padding externo
-                .background(Color(0xFF8f98ab), CircleShape),
-            textStyle = TextStyle(color = Color.White),
-            singleLine = true,
-            shape = CircleShape
-        )
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.heightIn(max = 300.dp)
-        ) {
-            items(3) {
-                Card(
-                    elevation = CardDefaults.cardElevation(16.dp),
-                    modifier = Modifier
-                        .size(height = 260.dp, width = 200.dp)
-                        .padding(16.dp),
-                    shape = CardDefaults.outlinedShape
-                ) {
-                    Column {
-                        Image(
-                            painter = painterResource(id = R.drawable.event_image),
-                            contentDescription = "evento imagem",
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .fillMaxWidth()
-                                .clip(shape = CardDefaults.outlinedShape)
-                        )
-                        Text(
-                            text = "Batidao do funk, putaria liberada aaaaaa",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp,
-                            modifier = Modifier
-                                .align(alignment = Alignment.CenterHorizontally)
-                                .padding(horizontal = 10.dp)
-                        )
-                        Row {
-                            DateDescriptionEvent(
-                                Modifier
-                                    .padding(horizontal = 10.dp)
-                                    .size(10.dp)
+    Box(
+
+    ) {
+        BoxExtendProfileColor() //extende a barra de cor do topbar
+        Column {
+            Spacer(
+                modifier = Modifier.padding(top = 6.dp)
+            )
+            // Campo de pesquisa
+            var text by remember { mutableStateOf("") }
+            OutlinedTextField(
+                leadingIcon = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_search),
+                        contentDescription = "Pesquisar",
+                        tint = Color.White
+                    )
+                },
+                value = text,
+                onValueChange = { text = it },
+                placeholder = { Text("Pesquisar...", color = Color.White) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                    cursorColor = Color.White,
+                    focusedPlaceholderColor = Color.White,
+                    unfocusedPlaceholderColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 8.dp) // Adiciona padding externo
+                    .background(Color(0xFF8f98ab), CircleShape),
+                textStyle = TextStyle(color = Color.White),
+                singleLine = true,
+                shape = CircleShape
+            )
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.heightIn(max = 300.dp)
+            ) {
+                items(3) {
+                    Card(
+                        elevation = CardDefaults.cardElevation(16.dp),
+                        modifier = MODIFIER_CARD,
+                        shape = CardDefaults.outlinedShape
+                    ) {
+                        Column {
+                            Image(
+                                painter = painterResource(id = R.drawable.event_image),
+                                contentDescription = "evento imagem",
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .fillMaxWidth()
+                                    .clip(shape = CardDefaults.outlinedShape)
                             )
-                        }
-                        Button(
-                            onClick = { /*TODO*/ },
-                            modifier = Modifier
-                                .wrapContentSize()
-                                .padding(8.dp),
-                            contentPadding = PaddingValues(8.dp)
-                        ) {
                             Text(
-                                text = "Saber mais",
-                                fontSize = 12.sp
+                                text = "Nome do evento",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 10.sp,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.CenterHorizontally)
+                                    .padding(horizontal = 10.dp)
                             )
+                            Row {
+                                DateDescriptionEvent(
+                                    Modifier
+                                        .padding(horizontal = 10.dp)
+                                        .size(10.dp)
+                                )
+                            }
+                            Button(
+                                onClick = { /*TODO*/ },
+                                modifier = Modifier
+                                    .wrapContentSize()
+                                    .padding(8.dp),
+                                contentPadding = PaddingValues(8.dp)
+                            ) {
+                                Text(
+                                    text = "Saber mais",
+                                    fontSize = 12.sp
+                                )
+                            }
                         }
                     }
                 }

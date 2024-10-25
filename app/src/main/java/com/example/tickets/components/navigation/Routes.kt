@@ -6,4 +6,5 @@ object Routes {
     const val CALENDAR = "calendar"
     const val MAPS = "maps"
     const val PROFILE = "profile"
+    const val PAYMENT_SCREEN = "payment"
 }

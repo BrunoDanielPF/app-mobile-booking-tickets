@@ -15,7 +15,7 @@ fun BoxExtendProfileColor() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.cinza_perfil))
+            .background(colorResource(id = R.color.main_amarelo_ouro))
             .padding(bottom = 200.dp)
     ) {
     }

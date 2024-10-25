@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tickets.components.bottom.BottomNavigationBar
 import com.example.tickets.components.content.MainScreenContentComponent
+import com.example.tickets.components.content.purchase.ScreenDetailsEventPurchase
 import com.example.tickets.components.navigation.Routes
 import com.example.tickets.components.navigation.eventRoute
 import com.example.tickets.components.topbar.TopBar
@@ -77,9 +80,6 @@ fun NavigationGraph(
         composable(BottomNavItem.Profile.screen_route) {
             Text(text = "pagina de perfil")
             //ProfileScreen()
-        }
-        composable("teste") {
-            Text(text = "pagina de teste")
         }
     }
 }

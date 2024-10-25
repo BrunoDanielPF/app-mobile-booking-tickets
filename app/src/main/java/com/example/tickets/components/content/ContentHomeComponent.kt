@@ -8,7 +8,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.rememberSwipeableState
@@ -37,38 +40,19 @@ private fun MainScreenContentComponentPreview() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreenContentComponent(navController: NavHostController) {
-    val swipeableState = rememberSwipeableState(initialValue = 1)
-    val anchors = mapOf(0f to 0, 1f to 1) // 0: Recolhido, 1: Expandido
-    var isDragging by remember { mutableStateOf(false) }
-
-    // Observe as mudanças no swipeableState para atualizar isDragging
-    LaunchedEffect(swipeableState.currentValue) {
-        isDragging = swipeableState.isAnimationRunning
-    }
-    val backgroundColor by animateColorAsState(
-        targetValue = if (isDragging) Color.LightGray else Color.White, // Ajuste as cores conforme necessário
-        animationSpec = tween(durationMillis = 200)
-    )
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(backgroundColor)) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .swipeable(
-                    state = swipeableState,
-                    anchors = anchors,
-                    thresholds = { _, _ -> FractionalThreshold(0.5f) },
-                    orientation = Orientation.Vertical
-                )
-        ) {
-            AnimatedVisibility(visible = swipeableState.currentValue == 1) {
-                Column {
-                    CardsEvents()
-                    CategoryListEvent()
-                }
+    Column(
+        modifier = Modifier.fillMaxHeight()
+    ) {
+        LazyColumn {
+            item {
+                CardsEvents()
             }
-            EventCardList(navController)
+            item {
+                CategoryListEvent()
+            }
+            item {
+                EventCardList(navController)
+            }
         }
     }
 }

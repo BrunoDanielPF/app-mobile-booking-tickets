@@ -1,6 +1,8 @@
 package com.example.tickets.components.content.cards
 
+import android.R.attr.maxHeight
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.tickets.R
+import com.example.tickets.components.navigation.Routes
 import com.example.tickets.components.navigation.navigateTo
 
 @Preview
@@ -41,14 +45,15 @@ private fun EventCardsListPreview() {
 
 @Composable
 fun EventCardList(navController: NavHostController) {
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        items(3) { // Cria 3 itens
-            CardEvent(navController)
-        }
+        CardEvent(navController)
+        CardEvent(navController)
+        CardEvent(navController)
+
     }
 }
 
@@ -57,13 +62,14 @@ fun CardEvent(navController: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(12.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .wrapContentHeight()
                 .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
@@ -72,42 +78,51 @@ fun CardEvent(navController: NavHostController) {
                     .size(64.dp)
                     .clip(RoundedCornerShape(8.dp))
             )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.Start,
+            ) {
                 Text(
-                    text = "batidao do arranha aranha",
+                    text = "Nome do evento",
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 12.sp
+                    fontSize = 14.sp
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "20 de outubro, 23",
-                    fontSize = 10.sp)
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "20 de outubro, 23",
+                    fontSize = 10.sp
+                )
             }
+            Spacer(modifier = Modifier.padding(horizontal = 13.dp))
             Divider(
                 modifier = Modifier
                     .height(48.dp)
                     .width(1.dp)
             )
-            Spacer(modifier = Modifier.width(16.dp))
+
             Column(
-                modifier = Modifier.wrapContentSize()
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(horizontal = 6.dp)
             ) {
                 Text(
                     text = "R$ 100,00",
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF800080),
-                    fontSize = 10.sp
+                    fontSize = 12.sp
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 TextButton(
+                    modifier = Modifier.wrapContentSize(),
                     onClick = {
-                        navController.navigateTo("teste")
+                        navController.navigateTo(Routes.DETAILS_SCREEN)
                     }
                 ) {
                     Text(
-                        text = "Comprar agora",
+                        modifier = Modifier.wrapContentSize(),
+                        text = "Comprar \n agora",
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp
                     )
