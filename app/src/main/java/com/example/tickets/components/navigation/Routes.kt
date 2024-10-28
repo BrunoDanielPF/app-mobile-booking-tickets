@@ -7,4 +7,6 @@ object Routes {
     const val MAPS = "maps"
     const val PROFILE = "profile"
     const val PAYMENT_SCREEN = "payment"
+    const val METHOD_PAYMENT_SCREEN = "methodPayment"
+    const val SLUG_METHOD_PAYMENT_SCREEN = "slugMethodPayment"
 }

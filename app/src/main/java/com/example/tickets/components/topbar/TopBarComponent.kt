@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tickets.R
+import com.example.tickets.components.colors.ColorsDefault.buttonGradient
 
 @Preview(showBackground = true)
 @Composable
@@ -54,7 +55,9 @@ fun TopBar(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.main_amarelo_ouro))
+            .background(
+                brush = buttonGradient()
+            )
             .padding(16.dp)
     ) {
         Row(
@@ -74,10 +77,10 @@ fun TopBar(
 
             Column {
                 Text(
-                    color = colorResource(id = R.color.texto_color_cinza_escuro),
+                    color = colorResource(id = R.color.white),
                     text = "Olá, $userName!",
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
 

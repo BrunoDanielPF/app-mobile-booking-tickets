@@ -1,5 +1,6 @@
-package com.example.tickets.components.content.events
+package com.example.tickets.components.home.content.events
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,18 +15,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -96,8 +95,13 @@ fun Category(modifier: Modifier = Modifier) {
             Button(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
+                    .background(
+                        colorResource(id = R.color.main_amarelo_ouro),
+                        shape = ButtonDefaults.shape
+                    )
                     .width(120.dp)
-                    .height(40.dp)
+                    .height(40.dp),
+                colors = ButtonDefaults.buttonColors(Color.Transparent)
             ) {
                 Icon(
                     painter = painterResource(id = item.second),
@@ -109,7 +113,6 @@ fun Category(modifier: Modifier = Modifier) {
                     text = item.first,
                     fontSize = 12.sp,
                     maxLines = 1
-//                    textAlign = TextAlign.Center
                 )
             }
         }

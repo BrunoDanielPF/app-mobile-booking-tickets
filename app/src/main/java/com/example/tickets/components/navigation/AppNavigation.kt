@@ -1,22 +1,16 @@
 package com.example.tickets.components.navigation
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import androidx.navigation.compose.rememberNavController
-import com.example.tickets.components.content.purchase.PaymentScreen
-import com.example.tickets.components.content.purchase.ScreenDetailsEventPurchase
-
-@Composable
-fun AppNavigation() {
-    val navController = rememberNavController()
-}
+import com.example.tickets.components.home.content.purchase.PaymentScreen
+import com.example.tickets.components.home.content.purchase.ScreenDetailsEventPurchase
+import com.example.tickets.components.home.content.purchase.method.MethodPaymentScreen
+import com.example.tickets.components.home.content.purchase.method.payment.SlugMethodPaymentScreen
 
 fun NavHostController.navigateTo(route: String) {
     this.navigate(route)
@@ -28,7 +22,13 @@ fun NavGraphBuilder.eventRoute(navController: NavController) {
             ScreenDetailsEventPurchase(navController = navController, modifier = Modifier.fillMaxWidth())
         }
         composable(Routes.PAYMENT_SCREEN) {
-            PaymentScreen()
+            PaymentScreen(navController = navController)
+        }
+        composable(Routes.METHOD_PAYMENT_SCREEN) {
+            MethodPaymentScreen(navController = navController)
+        }
+        composable(Routes.SLUG_METHOD_PAYMENT_SCREEN) {
+            SlugMethodPaymentScreen(navController = navController)
         }
     }
 }

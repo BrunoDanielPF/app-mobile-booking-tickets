@@ -7,7 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="main_amarelo_ouro">#ffd700</color>
+    <color name="main_amarelo_ouro">#f76b10</color>
     <color name="second_amarelo_creme">#fffdd0</color>
     <color name="texto_color_cinza_escuro">#333333</color>
+    <color name="buttom_linear_black">#20222c</color>
+    <color name="buttom_linear_black_second_color">#4A4E69</color>
 </resources>

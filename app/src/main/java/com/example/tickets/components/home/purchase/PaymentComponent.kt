@@ -1,4 +1,4 @@
-package com.example.tickets.components.content.purchase
+package com.example.tickets.components.home.content.purchase
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,15 +40,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.tickets.components.navigation.Routes
 
 @Preview
 @Composable
 private fun PaymentScreenPreview() {
-    PaymentScreen()
+    PaymentScreen(rememberNavController())
 }
 
 @Composable
-fun PaymentScreen(modifier: Modifier = Modifier) {
+fun PaymentScreen(navController: NavController, modifier: Modifier = Modifier ) {
 
     var selectedButtonId by remember { mutableStateOf<Int?>(null) }
 
@@ -59,8 +62,9 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
             .padding(16.dp)
     ) {
         item {
-            Row (
-                modifier = Modifier.fillMaxWidth()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -69,7 +73,9 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
                     contentDescription = "Voltar",
                     modifier = Modifier
                         .size(32.dp)
-                        .clickable { /* Ação de voltar */ }
+                        .clickable {
+                            navController.navigate("home")
+                        }
                 )
                 Text(
                     style = MaterialTheme.typography.titleLarge,
@@ -122,7 +128,9 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.Bottom,
             ) {
                 Button(
-                    onClick = { /* Ação do botão */ },
+                    onClick = {
+                        navController.navigate(Routes.METHOD_PAYMENT_SCREEN)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
@@ -131,7 +139,8 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
                     Text(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        text = "Continuar")
+                        text = "Continuar"
+                    )
                 }
             }
         }
