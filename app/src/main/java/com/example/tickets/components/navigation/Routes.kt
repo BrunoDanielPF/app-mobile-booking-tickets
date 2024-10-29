@@ -9,4 +9,5 @@ object Routes {
     const val PAYMENT_SCREEN = "payment"
     const val METHOD_PAYMENT_SCREEN = "methodPayment"
     const val SLUG_METHOD_PAYMENT_SCREEN = "slugMethodPayment"
+    const val ONBOARDING_SCREEN = "onboarding"
 }

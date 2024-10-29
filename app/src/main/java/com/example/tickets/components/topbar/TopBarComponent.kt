@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tickets.R
-import com.example.tickets.components.colors.ColorsDefault.buttonGradient
+import com.example.tickets.components.colors.ColorsDefault.blackGradient
 
 @Preview(showBackground = true)
 @Composable
@@ -56,7 +56,7 @@ fun TopBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                brush = buttonGradient()
+                brush = blackGradient()
             )
             .padding(16.dp)
     ) {

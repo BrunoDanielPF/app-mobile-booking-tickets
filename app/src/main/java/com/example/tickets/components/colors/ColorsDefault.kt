@@ -8,7 +8,7 @@ import com.example.tickets.R
 object ColorsDefault {
 
     @Composable
-    fun buttonGradient(): Brush {
+    fun blackGradient(): Brush {
         return Brush.horizontalGradient(
             colors = listOf(
                 colorResource(id = R.color.buttom_linear_black), // Cor inicial do gradiente

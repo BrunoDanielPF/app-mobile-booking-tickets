@@ -18,21 +18,29 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tickets.R
+import com.example.tickets.components.colors.ColorsDefault
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CategoryListComponent() {
     CategoryListEvent(
@@ -44,9 +52,11 @@ private fun CategoryListComponent() {
 
 @Composable
 fun CategoryListEvent(modifier: Modifier = Modifier) {
+    var selectedFilter by remember { mutableStateOf("Música") }
+
     Column(modifier = modifier) {
         TitleEventList()
-        Category(modifier = Modifier.padding(12.dp))
+        Category(selectedFilter = remember { mutableStateOf(selectedFilter) }, modifier = Modifier.padding(12.dp))
     }
 }
 
@@ -66,22 +76,23 @@ fun TitleEventList() {
         )
         Text(
             text = "Ver todos",
-            color = Color.Blue,
+            color = colorResource(id = R.color.main_amarelo_ouro),
             modifier = Modifier
                 .clickable(
                     onClick = { /*TODO*/ }
                 )
                 .padding(end = 12.dp)
-                .wrapContentWidth(Alignment.End)
+                .wrapContentWidth(Alignment.End),
+            fontWeight = FontWeight.Bold
         )
     }
 }
 
 @Composable
-fun Category(modifier: Modifier = Modifier) {
+fun Category(selectedFilter: MutableState<String>, modifier: Modifier = Modifier) {
     val items = listOf(
-        Pair("Esportes", R.drawable.ic_sports), // Substitua pelos seus ícones
         Pair("Música", R.drawable.ic_music),
+        Pair("Esportes", R.drawable.ic_sports),
         Pair("Teatro", R.drawable.ic_theater),
         Pair("Cinema", R.drawable.ic_cinema)
     )
@@ -93,26 +104,32 @@ fun Category(modifier: Modifier = Modifier) {
     ) {
         items(items) { item ->
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { selectedFilter.value = item.first },
                 modifier = Modifier
                     .background(
-                        colorResource(id = R.color.main_amarelo_ouro),
+                        color = if (selectedFilter.value == item.first) {
+                            colorResource(id = R.color.main_amarelo_ouro) // Orange when selected
+                        } else {
+                            Color.LightGray // Grayed out when not selected
+                        },
                         shape = ButtonDefaults.shape
                     )
                     .width(120.dp)
                     .height(40.dp),
-                colors = ButtonDefaults.buttonColors(Color.Transparent)
+                colors = ButtonDefaults.buttonColors(Color.Transparent),
+                enabled = selectedFilter.value != item.first
             ) {
                 Icon(
                     painter = painterResource(id = item.second),
                     contentDescription = item.first,
-                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                    modifier = Modifier.size(ButtonDefaults.IconSize),
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text(
                     text = item.first,
                     fontSize = 12.sp,
-                    maxLines = 1
+                    maxLines = 1,
+                    color = Color.White
                 )
             }
         }

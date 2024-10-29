@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -32,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -45,7 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tickets.R
-import com.example.tickets.components.colors.ColorsDefault.buttonGradient
+import com.example.tickets.components.colors.ColorsDefault.blackGradient
 import com.example.tickets.components.style.StyleCards.Companion.MODIFIER_CARD
 import com.example.tickets.components.topbar.BoxExtendProfileColor
 
@@ -104,7 +104,9 @@ fun CardsEvents() {
                         modifier = MODIFIER_CARD,
                         shape = CardDefaults.outlinedShape
                     ) {
-                        Column {
+                        Column(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
                             Image(
                                 painter = painterResource(id = R.drawable.event_image),
                                 contentDescription = "evento imagem",
@@ -120,7 +122,6 @@ fun CardsEvents() {
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
                                 modifier = Modifier
-                                    .align(alignment = Alignment.CenterHorizontally)
                                     .padding(horizontal = 10.dp)
                             )
                             Row {
@@ -134,10 +135,10 @@ fun CardsEvents() {
                                 onClick = { /*TODO*/ },
                                 modifier = Modifier
                                     .wrapContentSize()
-                                    .padding(8.dp)
+                                    .padding(top = 15.dp, end = 8.dp, start = 8.dp, bottom = 8.dp)
                                     .background(
-                                        brush = buttonGradient(),
-                                        shape = MaterialTheme.shapes.medium
+                                        brush = blackGradient(),
+                                        shape = MaterialTheme.shapes.small
                                     ),
                                 contentPadding = PaddingValues(8.dp),
                                 colors = ButtonDefaults.buttonColors(

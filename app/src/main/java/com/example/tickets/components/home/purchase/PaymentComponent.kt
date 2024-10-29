@@ -21,9 +21,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -43,6 +46,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.tickets.components.navigation.Routes
+import com.example.tickets.R
+import com.example.tickets.components.colors.ColorsDefault
 
 @Preview
 @Composable
@@ -51,7 +56,7 @@ private fun PaymentScreenPreview() {
 }
 
 @Composable
-fun PaymentScreen(navController: NavController, modifier: Modifier = Modifier ) {
+fun PaymentScreen(navController: NavController, modifier: Modifier = Modifier) {
 
     var selectedButtonId by remember { mutableStateOf<Int?>(null) }
 
@@ -134,12 +139,15 @@ fun PaymentScreen(navController: NavController, modifier: Modifier = Modifier ) 
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = colorResource(id = R.color.main_amarelo_ouro)),
                     contentPadding = PaddingValues(16.dp),
                 ) {
                     Text(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        text = "Continuar"
+                        text = "Continuar",
+                        color = Color.White
                     )
                 }
             }
@@ -261,8 +269,8 @@ fun SelectableButtons(
             Button(
                 onClick = { onButtonClick(button.id) },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = if (selectedButtonId == button.id) Color(0xFFffd700) else Color(
-                        0xFFfff1ba
+                    backgroundColor = if (selectedButtonId == button.id) colorResource(id = R.color.main_amarelo_ouro) else colorResource(
+                        id = R.color.buttom_linear_black_second_color
                     )
                 ),
                 modifier = Modifier
@@ -271,7 +279,7 @@ fun SelectableButtons(
             ) {
                 Text(
                     text = button.text,
-                    color = if (selectedButtonId == button.id) Color.White else Color.Black
+                    color = if (selectedButtonId == button.id) Color.Black else Color.White
                 )
             }
         }

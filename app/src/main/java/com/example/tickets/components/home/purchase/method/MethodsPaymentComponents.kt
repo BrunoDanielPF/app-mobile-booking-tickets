@@ -1,5 +1,6 @@
 package com.example.tickets.components.home.content.purchase.method
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
@@ -29,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.tickets.R
+import com.example.tickets.components.colors.ColorsDefault
 import com.example.tickets.components.navigation.Routes
 
 @Preview
@@ -146,11 +151,21 @@ fun MethodPaymentScreen(navController: NavController, modifier: Modifier = Modif
                         .fillMaxWidth()
                         .padding(16.dp),
                     contentPadding = PaddingValues(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = colorResource(id = R.color.main_amarelo_ouro),
+                        contentColor = Color.White
+                    ),
+                    elevation = ButtonDefaults.elevation(
+                        defaultElevation = 0.dp,
+                        pressedElevation = 0.dp
+                    ),
+                    shape = MaterialTheme.shapes.small
                 ) {
                     Text(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        text = "Continuar"
+                        text = "Continuar",
+                        color = Color.White
                     )
                 }
             }

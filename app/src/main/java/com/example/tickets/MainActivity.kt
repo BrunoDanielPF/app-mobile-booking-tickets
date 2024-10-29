@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tickets.components.bottom.BottomNavigationBar
 import com.example.tickets.components.home.content.MainScreenContentComponent
+import com.example.tickets.components.home.onboarding.OnboardingScreen
 import com.example.tickets.components.navigation.Routes
 import com.example.tickets.components.navigation.eventRoute
 import com.example.tickets.components.topbar.TopBar
@@ -62,6 +63,9 @@ fun NavigationGraph(
             innerPadding
         )
     ) {
+        composable(Routes.ONBOARDING_SCREEN) {
+            OnboardingScreen(navController)
+        }
         eventRoute(navController)
         composable(BottomNavItem.Home.screen_route) {
             MainScreenContentComponent(navController)

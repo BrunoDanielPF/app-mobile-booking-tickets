@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.tickets.components.colors.ColorsDefault.buttonGradient
+import com.example.tickets.components.colors.ColorsDefault.blackGradient
 
 
 @Preview(showBackground = true)
@@ -36,7 +36,7 @@ fun GraphicsBrushColorStopUsage() {
 fun BoxExtendProfileColor() {
     Box(
         modifier = Modifier
-            .background(brush = buttonGradient())
+            .background(brush = blackGradient())
             .fillMaxWidth()
             .padding(bottom = 200.dp)
     ) {
