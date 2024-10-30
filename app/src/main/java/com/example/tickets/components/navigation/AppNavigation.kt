@@ -18,17 +18,6 @@ fun NavHostController.navigateTo(route: String) {
 
 fun NavGraphBuilder.eventRoute(navController: NavController) {
     navigation(startDestination = "username", route = "login") {
-        composable(Routes.DETAILS_SCREEN) {
-            ScreenDetailsEventPurchase(navController = navController, modifier = Modifier.fillMaxWidth())
-        }
-        composable(Routes.PAYMENT_SCREEN) {
-            PaymentScreen(navController = navController)
-        }
-        composable(Routes.METHOD_PAYMENT_SCREEN) {
-            MethodPaymentScreen(navController = navController)
-        }
-        composable(Routes.SLUG_METHOD_PAYMENT_SCREEN) {
-            SlugMethodPaymentScreen(navController = navController)
-        }
+
     }
 }

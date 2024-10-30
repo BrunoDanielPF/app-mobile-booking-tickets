@@ -24,8 +24,10 @@ import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -65,29 +67,39 @@ fun ScreenDetailsEventPurchase(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(24.dp)
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
         item {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                IconArrowBack(navController)
-                Text(
-                    text = "Detalhes do evento",
+                androidx.compose.material3.Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Voltar",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable {
+                            navController.navigate("home")
+                        }
+                )
+                androidx.compose.material3.Text(
                     style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    text = "Detalhes do evento"
                 )
                 androidx.compose.material3.Icon(
-                    imageVector = Icons.Default.Info,
+                    imageVector = Icons.Default.List,
                     contentDescription = "Lista",
                     modifier = Modifier
                         .size(32.dp)
                         .clickable { /* Ação de voltar */ }
                 )
             }
-
         }
         item {
             EventHeader(

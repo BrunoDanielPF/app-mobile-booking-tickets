@@ -269,9 +269,7 @@ fun SelectableButtons(
             Button(
                 onClick = { onButtonClick(button.id) },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = if (selectedButtonId == button.id) colorResource(id = R.color.main_amarelo_ouro) else colorResource(
-                        id = R.color.buttom_linear_black_second_color
-                    )
+                    backgroundColor = if (selectedButtonId == button.id) colorResource(id = R.color.main_amarelo_ouro) else Color.LightGray
                 ),
                 modifier = Modifier
                     .widthIn(min = 80.dp)
@@ -279,7 +277,7 @@ fun SelectableButtons(
             ) {
                 Text(
                     text = button.text,
-                    color = if (selectedButtonId == button.id) Color.Black else Color.White
+                    color = if (selectedButtonId == button.id) Color.White else Color.Black
                 )
             }
         }
