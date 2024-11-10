@@ -45,6 +45,7 @@ dependencies {
 //    implementation("androidx.credentials:credentials:1.2.2")
 //    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
 //    implementation("com.google.android.libraries.identity.googleid:googleid:1.2.2")
+    implementation ("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")

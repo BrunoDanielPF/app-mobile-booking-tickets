@@ -1,5 +1,6 @@
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tickets.R
 import com.example.tickets.components.samples.IconsApp
+import com.example.tickets.components.validations.isPasswordValid
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -36,11 +39,12 @@ fun LoginPage(
     onGoogleLoginClick: () -> Unit,
     onForgotPasswordClick: () -> Unit,
     onCreateAccountClick: () -> Unit,
-    onLoginSuccess: () -> Unit // Novo parâmetro para redirecionar o usuário para criar conta
+    onLoginSuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
+    var isPasswordValid by remember { mutableStateOf(true) }
     var rememberAccount by remember { mutableStateOf(false) }
 
     Column(
@@ -85,19 +89,24 @@ fun LoginPage(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("E-mail") },
                 leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = "E-mail") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = {
+                    password = it
+                    isPasswordValid = isPasswordValid(password)
+                },
                 label = { Text("Senha") },
                 leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = "Senha") },
                 visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -110,8 +119,17 @@ fun LoginPage(
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
+                isError = !isPasswordValid,
             )
+
+            if (!isPasswordValid) {
+                Text(
+                    text = "A senha precisa ter no mínimo uma letra maiúscula, um caractere especial e pelo menos 8 caracteres.",
+                    color = Color.Red,
+                    fontSize = 12.sp
+                )
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 

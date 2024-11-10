@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.tickets.services.QrCodeService
+import com.example.tickets.services.ApiTicketService
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
@@ -120,9 +120,9 @@ suspend fun generateQrCode(
         .addConverterFactory(ScalarsConverterFactory.create()) // Add converter for String responses
         .build()
 
-    val qrCodeService = retrofit.create(QrCodeService::class.java)
+    val apiTicketService = retrofit.create(ApiTicketService::class.java)
     return try {
-        val response = qrCodeService.generateQrCode(userName, eventName, enabled, id)
+        val response = apiTicketService.generateQrCode(userName, eventName, enabled, id)
         if (response.isSuccessful) {
             val inputStream = response.body()?.byteStream()
             if (inputStream != null) {
