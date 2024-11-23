@@ -11,6 +11,7 @@ object Routes {
     const val SLUG_METHOD_PAYMENT_SCREEN = "slugMethodPayment"
     const val LOGIN_SCREEN = "login"
     const val ONBOARDING_SCREEN = "onboarding"
+    const val CONFIRM_EMAIL_SCREEN = "emailConfirmation"
     const val RECOVER_PASSWORD_SCREEN = "recoverPassword"
     const val CREATE_ACCOUNT_SCREEN = "createAccount"
 }

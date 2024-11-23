@@ -1,4 +1,8 @@
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -10,6 +14,8 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,34 +29,56 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.tickets.R
 import com.example.tickets.components.samples.IconsApp
 import com.example.tickets.components.validations.isPasswordValid
+import com.example.tickets.services.data.UserPreferences
+import com.example.tickets.services.performLogin
+import com.example.tickets.ui.theme.TicketsTheme
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    name = "(Dark)",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showSystemUi = true
+)
+@Preview(
+    name = "(White)",
+    showBackground = true,
+    showSystemUi = true,
+    uiMode = UI_MODE_NIGHT_NO
+)
 @Composable
 private fun LoginPagePreview() {
-    LoginPage({ _, _ -> }, { }, { }, { }, { })
+        LoginPage(
+            { },
+            { },
+            { },
+            { },
+            rememberNavController(),
+            UserPreferences(rememberNavController().context)
+        )
 }
 
 @Composable
 fun LoginPage(
-    onLoginClick: (String, String) -> Unit,
     onGoogleLoginClick: () -> Unit,
     onForgotPasswordClick: () -> Unit,
     onCreateAccountClick: () -> Unit,
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    navController: NavHostController,
+    userPreferences: UserPreferences
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
     var isPasswordValid by remember { mutableStateOf(true) }
     var rememberAccount by remember { mutableStateOf(false) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(24.dp),
     ) {
         Row(
             modifier = Modifier
@@ -92,7 +120,13 @@ fun LoginPage(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("E-mail") },
+                label = {
+                    Text(
+                        fontWeight = FontWeight.Bold,
+                        text = "E-mail",
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black
+                    )
+                },
                 leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = "E-mail") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -107,7 +141,13 @@ fun LoginPage(
                     password = it
                     isPasswordValid = isPasswordValid(password)
                 },
-                label = { Text("Senha") },
+                label = {
+                    Text(
+                        text = "Senha",
+                        fontWeight = FontWeight.Bold,
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black
+                    )
+                },
                 leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = "Senha") },
                 visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -154,8 +194,7 @@ fun LoginPage(
 
             Button(
                 onClick = {
-                    onLoginClick(email, password)
-                    onLoginSuccess() // Define `isUserLoggedIn` como true após o login
+                    performLogin(userPreferences, navController, email, password, onLoginSuccess)
                 },
                 modifier = Modifier
                     .fillMaxWidth()

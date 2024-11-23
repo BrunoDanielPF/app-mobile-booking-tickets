@@ -12,7 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
@@ -28,8 +34,14 @@ import com.example.tickets.components.home.content.purchase.method.payment.SlugM
 import com.example.tickets.components.navigation.Routes
 import com.example.tickets.components.navigation.eventRoute
 import com.example.tickets.components.topbar.TopBar
+import com.example.tickets.components.user.ConfirmAccountScreen
 import com.example.tickets.components.user.RecoverPasswordScreen
+import com.example.tickets.services.createApiService
+import com.example.tickets.services.data.UserPreferences
+import com.example.tickets.services.performCreateAccount
 import com.example.tickets.ui.theme.TicketsTheme
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private var isUserLoggedIn = mutableStateOf(false)
@@ -40,10 +52,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             TicketsTheme {
                 val navController = rememberNavController()
+                val userPreferences = UserPreferences(navController.context)
                 MainScreen(
                     navHostController = navController,
                     isUserLoggedIn = isUserLoggedIn.value,
-                    onLoginSuccess = { isUserLoggedIn.value = true }
+                    onLoginSuccess = { isUserLoggedIn.value = true },
+                    userPreferences
                 )
             }
         }
@@ -53,19 +67,52 @@ class MainActivity : ComponentActivity() {
 @Composable
 @Preview
 fun MainScreenPreview() {
-    MainScreen(rememberNavController(), false, { })
+    MainScreen(
+        rememberNavController(),
+        false,
+        { },
+        UserPreferences(rememberNavController().context)
+    )
 }
 
 @Composable
 fun MainScreen(
     navHostController: NavHostController,
     isUserLoggedIn: Boolean,
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    userPreferences: UserPreferences
 ) {
+    var userName by remember { mutableStateOf("") }
+    val apiService = remember { createApiService() }
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             if (isUserLoggedIn) {
-                TopBar(userName = "{Nome do usuário}", onFilterClick = { /* Ação de filtro */ })
+                LaunchedEffect(Unit) {
+
+                    val email = userPreferences.userEmail.firstOrNull() ?: ""
+                    if (email.isNotBlank()) {
+
+                        coroutineScope.launch {
+                            try {
+                                val response = apiService.getUser(email)
+                                if (response.isSuccessful) {
+                                    val user = response.body()
+                                    userName = user?.nome ?: "Usuário"
+                                } else {
+                                    println(
+                                        "Erro ao buscar o usuário: ${
+                                            response.errorBody()?.string()
+                                        }"
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                println("Erro ao fazer a chamada de rede: ${e.message}")
+                            }
+                        }
+                    }
+                }
+                TopBar(userName = userName, onFilterClick = { /* Ação de filtro */ })
             }
         },
         bottomBar = { BottomNavigationBar(navHostController) }
@@ -73,7 +120,8 @@ fun MainScreen(
         NavigationGraph(
             navController = navHostController,
             innerPadding = innerPadding,
-            onLoginSuccess = onLoginSuccess
+            onLoginSuccess = onLoginSuccess,
+            userPreferences = userPreferences
         )
     }
 }
@@ -82,7 +130,8 @@ fun MainScreen(
 fun NavigationGraph(
     onLoginSuccess: () -> Unit,
     navController: NavHostController,
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
+    userPreferences: UserPreferences
 ) {
     NavHost(
         navController,
@@ -94,12 +143,6 @@ fun NavigationGraph(
         eventRoute(navController)
         composable(Routes.LOGIN_SCREEN) {
             LoginPage(
-                onLoginClick = { email, password ->
-                    // Implemente a lógica de login aqui e redirecione para a tela principal se tiver sucesso
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.LOGIN_SCREEN) { inclusive = true }
-                    }
-                },
                 onGoogleLoginClick = {
                     // Implemente a lógica do login com Google
                 },
@@ -111,14 +154,24 @@ fun NavigationGraph(
                 },
                 onLoginSuccess = {
                     onLoginSuccess()
-                }
+                },
+                navController,
+                userPreferences
             )
         }
         composable(Routes.RECOVER_PASSWORD_SCREEN) {
             RecoverPasswordScreen()
         }
         composable(Routes.CREATE_ACCOUNT_SCREEN) {
-            CreateAccountScreen()
+            CreateAccountScreen(navHostController = navController, userPreferences = userPreferences)
+        }
+        composable(Routes.CONFIRM_EMAIL_SCREEN) {
+            var email by remember { mutableStateOf<String?>(null) }
+
+            LaunchedEffect(Unit) {
+                email = userPreferences.userEmail.firstOrNull()
+            }
+            ConfirmAccountScreen(email = email, navHostController = navController)
         }
         composable(BottomNavItem.Home.screen_route) {
             MainScreenContentComponent(navController)
@@ -136,7 +189,10 @@ fun NavigationGraph(
             //ProfileScreen()
         }
         composable(Routes.DETAILS_SCREEN) {
-            ScreenDetailsEventPurchase(navController = navController, modifier = Modifier.fillMaxWidth())
+            ScreenDetailsEventPurchase(
+                navController = navController,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
         composable(Routes.PAYMENT_SCREEN) {
             PaymentScreen(navController = navController)
