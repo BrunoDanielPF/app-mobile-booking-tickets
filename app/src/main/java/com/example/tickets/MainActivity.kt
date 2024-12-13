@@ -13,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,7 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tickets.components.bottom.BottomNavigationBar
 import com.example.tickets.components.home.content.MainScreenContentComponent
-import com.example.tickets.components.home.content.purchase.PaymentScreen
+import com.example.tickets.components.home.content.purchase.ChooseQuantityScreen
 import com.example.tickets.components.home.content.purchase.ScreenDetailsEventPurchase
 import com.example.tickets.components.home.content.purchase.method.MethodPaymentScreen
 import com.example.tickets.components.home.content.purchase.method.payment.SlugMethodPaymentScreen
@@ -38,7 +37,6 @@ import com.example.tickets.components.user.ConfirmAccountScreen
 import com.example.tickets.components.user.RecoverPasswordScreen
 import com.example.tickets.services.createApiService
 import com.example.tickets.services.data.UserPreferences
-import com.example.tickets.services.performCreateAccount
 import com.example.tickets.ui.theme.TicketsTheme
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -195,7 +193,7 @@ fun NavigationGraph(
             )
         }
         composable(Routes.PAYMENT_SCREEN) {
-            PaymentScreen(navController = navController)
+            ChooseQuantityScreen(navController = navController)
         }
         composable(Routes.METHOD_PAYMENT_SCREEN) {
             MethodPaymentScreen(navController = navController)

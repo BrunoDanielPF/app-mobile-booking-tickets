@@ -21,11 +21,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,22 +43,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.tickets.components.navigation.Routes
 import com.example.tickets.R
-import com.example.tickets.components.colors.ColorsDefault
+import com.example.tickets.components.navigation.Routes
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PaymentScreenPreview() {
-    PaymentScreen(rememberNavController())
+    ChooseQuantityScreen(rememberNavController())
 }
 
 @Composable
-fun PaymentScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun ChooseQuantityScreen(navController: NavController, modifier: Modifier = Modifier) {
 
     var selectedButtonId by remember { mutableStateOf<Int?>(null) }
 
-    var quantitySeats by remember { mutableIntStateOf(0) }
+    var quantitySeats by remember { mutableIntStateOf(1) }
 
     LazyColumn(
         modifier = Modifier
@@ -85,7 +82,7 @@ fun PaymentScreen(navController: NavController, modifier: Modifier = Modifier) {
                 Text(
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    text = "Ticket"
+                    text = "Ingresso"
                 )
                 Icon(
                     imageVector = Icons.Default.List,
@@ -97,7 +94,7 @@ fun PaymentScreen(navController: NavController, modifier: Modifier = Modifier) {
             }
             Row {
                 Text(
-                    text = "Selecione o tipo de ticket",
+                    text = "Selecione o Ingresso",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 16.dp)
@@ -224,13 +221,13 @@ fun InputFieldSeats(quantitySeats: Int, onQuantityChange: (Int) -> Unit) {
             modifier = Modifier
                 .size(32.dp)
                 .padding(8.dp)
-                .clickable { onQuantityChange(if (quantitySeats > 0) quantitySeats - 1 else 0) }
+                .clickable { onQuantityChange(if (quantitySeats > 1) quantitySeats - 1 else 1) }
         )
 
         BasicTextField(
             value = quantitySeats.toString(),
             onValueChange = { newValue ->
-                onQuantityChange(newValue.toIntOrNull() ?: 0)
+                onQuantityChange(newValue.toIntOrNull() ?: 1)
             },
             modifier = Modifier.weight(1f),
             textStyle = TextStyle(
